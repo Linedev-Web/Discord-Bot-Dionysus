@@ -1,12 +1,14 @@
 const {Client} = require('discord.js')
+const {readdirSync} = require("node:fs");
 const config = require("./config");
 require('dotenv').config();
 
 const client = new Client({intents: config.intents})
 
-client.on('ready', () => {
-    client.user.setActivity('J\'aime le vins.')
-    console.log(`[${client.user.tag}]: je suis connecté.`)
-})
+client.commands = {}
+client.slashs = []
+
+readdirSync('./src/utils/handlers').forEach(handler => require(`./src/utils/handlers/${handler}`)(client))
+
 
 client.login(process.env.TOKEN)
