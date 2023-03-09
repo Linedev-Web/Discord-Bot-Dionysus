@@ -1,3 +1,4 @@
+const {PermissionsBitField} = require("discord.js");
 module.exports = {
     run: ({client, interaction}) => {
         interaction.reply({
@@ -21,6 +22,7 @@ module.exports = {
             }]
         })
     }, help: {
-        description: "Afficher les informations du serveur"
+        description: "Afficher les informations du serveur",
+        botPermissions: [PermissionsBitField.Flags.EmbedLinks]
     }
 }
