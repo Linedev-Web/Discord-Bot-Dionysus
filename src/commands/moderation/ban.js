@@ -17,8 +17,8 @@ module.exports = {
         if (user.id === interaction.guild.ownerId) return interaction.reply({content: "Vous ne pouvez pas bannir le propriétaire du serveur."});
 
         if (member) {
-            if (interaction.user.id !== interaction.guild.ownerId && interaction.member.roles.highest.position <= member.roles.highest.position) return interaction.reply({content: "Vous ne pouvez pas bannir ce membre, vous n'ées pas assez haut dans la hiérarchie des rôles."});
-            if (member.bannable === false) return interaction.reply({content: "Je ne peux pas bannir ce membre. Vérifiez que suis au dessus de lui dans la hiérarchie des rôles."});
+            if (interaction.user.id !== interaction.guild.ownerId && interaction.member.roles.highest.position <= member.roles.highest.position) return interaction.reply({content: "Vous ne pouvez pas bannir ce membre, vous n'êtes pas assez haut dans la hiérarchie des rôles."});
+            if (member.bannable === false) return interaction.reply({content: "Je ne peux pas bannir ce membre. Vérifiez que je suis au dessus de lui dans la hiérarchie des rôles."});
         }
 
         const messageHistorySeconds = {
