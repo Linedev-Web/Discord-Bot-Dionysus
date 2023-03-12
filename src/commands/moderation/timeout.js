@@ -45,6 +45,7 @@ module.exports = {
         description: 'Rendre muet un membre',
         botPermissions: [PermissionsBitField.Flags.ModerateMembers],
         memberPermissions: [PermissionsBitField.Flags.ModerateMembers],
+        examples: ['membre: xxxxxx#0000 duree: 7h raison: Parle trop'],
         options: [
             {
                 name: "membre",

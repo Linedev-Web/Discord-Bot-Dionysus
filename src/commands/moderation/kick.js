@@ -24,6 +24,8 @@ module.exports = {
         description: "Expluse un membre.",
         botPermissions: [PermissionsBitField.Flags.KickMembers],
         memberPermissions: [PermissionsBitField.Flags.KickMembers],
+        examples: ['membre: xxxxxx#0000 raison: Pas sage'],
+
         options: [{
             name: "membre", description: "Le membre à expulser.", type: 6, required: true
         }, {

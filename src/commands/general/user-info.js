@@ -31,6 +31,7 @@ module.exports = {
     }, help: {
         description: "Affiche les informations d'un utilisateur",
         memberPermissions: [PermissionsBitField.Flags.EmbedLinks],
+        examples: ['membre: xxxxxx#0000'],
         options: [{
             name: "member",
             description: "Utilisateur auquel l'on veux voir les informations",

@@ -43,6 +43,8 @@ module.exports = {
         description: "Bannir un utilisateur.",
         botPermissions: [PermissionsBitField.Flags.BanMembers],
         memberPermissions: [PermissionsBitField.Flags.BanMembers],
+
+        examples: ['utilisateur: xxxxxx#0000 raison: Pas sage', 'utilisateur: xxxxxx#0000 raison: Insulte supprimer-historique-message: 6 Heures Précédentes'],
         options: [{
             name: "utilisateur", description: "L'utilisateur à bnnir", type: 6, required: true
         }, {

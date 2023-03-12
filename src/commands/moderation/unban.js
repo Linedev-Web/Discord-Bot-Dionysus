@@ -19,6 +19,8 @@ module.exports = {
         description: "Débanni un utilisateur via son identifiant.",
         botPermissions: [PermissionsBitField.Flags.BanMembers],
         memberPermissions: [PermissionsBitField.Flags.BanMembers],
+        examples: ['utilisateur: xxxxxx#0000 raison: Devenue sage'],
+
         options: [
             {
                 name: 'id-utilisateur',

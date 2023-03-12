@@ -23,6 +23,7 @@ module.exports = {
         description: "Enlever la mise en sourdine d'un membre.",
         botPermissions: [PermissionsBitField.Flags.ModerateMembers],
         memberPermissions: [PermissionsBitField.Flags.ModerateMembers],
+        examples: ['membre: xxxxxx#0000 raison: Parle moins'],
         options: [
             {
                 name: 'membre',
