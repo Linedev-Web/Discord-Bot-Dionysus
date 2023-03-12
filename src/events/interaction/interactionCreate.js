@@ -4,7 +4,7 @@ module.exports = ({client, params: [interaction]}) => {
     if (!interaction.channel.permissionsFor(interaction.guild.members.me).has(PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel)) return;
 
     if (interaction.isCommand()) {
-        const command = client.commands[interaction.commandName];
+        const command = client.commands.get(interaction.commandName);
 
         console.warn('%c================================================');
         console.table(command);
@@ -16,7 +16,7 @@ module.exports = ({client, params: [interaction]}) => {
 
         command.run({client, interaction});
     } else if (interaction.isAutocomplete()) {
-        const autocomplete = client.autocompletes[interaction.commandName];
+        const autocomplete = client.autocompletes.get(interaction.commandName);
 
         if (!autocomplete) return;
 

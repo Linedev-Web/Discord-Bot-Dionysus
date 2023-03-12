@@ -6,9 +6,9 @@ module.exports = client => {
         const autocomplete = require(`../../autocompletes/${file}`);
         const autocompleteName = file.split('.')[0];
 
-        client.autocompletes[autocompleteName] = {
+        client.autocompletes.set(autocompleteName, {
             run: autocomplete.run,
             help: Object.assign(autocomplete.help, {name: autocompleteName})
-        };
+        });
     });
 };

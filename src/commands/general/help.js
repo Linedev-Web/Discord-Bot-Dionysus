@@ -4,11 +4,13 @@ module.exports = {
         const commandName = interaction.options.getString('commande');
 
         if (commandName) {
-            const command = client.commands[commandName];
+            const command = client.commands.get(commandName);
 
             if (!command) return interaction.reply({content: `Je ne trouve aucune commande **${escapeMarkdown(commandName)}**.`});
 
             const optionTypes = {
+                1: "sous-commande",
+                2: "group de sous-commandes",
                 3: "Chaine de caractère",
                 4: "nombre entier",
                 5: "vrai ou faux",
@@ -43,7 +45,7 @@ module.exports = {
             });
         }
         else {
-            const commands = Object.values(client.commands).filter(({help}) => help.category !== "owner");
+            const commands = client.commands.filter(c => c.category !== "owner");
             const categprieName = {
                 general: '📰 Général',
                 moderation: '🛡️ Moderation'
@@ -54,9 +56,9 @@ module.exports = {
                     color: client.config.color,
                     title: 'Commande',
                     description: `Préfixe : \`/\`\nCommandes : \`${commands.length}\``,
-                    fields: [...new Set(commands.map(({help}) => help.category))].map(category => ({
+                    fields: [...new Set(commands.map(c => c.category))].map(category => ({
                         name: categprieName[category],
-                        value: commands.filter(({help}) => help.category === category).map(({help}) => `\`${help.name}\``).join(', ')
+                        value: commands.filter(c => c.category === category).map(c => `\`${c.name}\``).join(', ')
                     }))
                 }]
             });
