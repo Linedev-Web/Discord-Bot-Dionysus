@@ -8,6 +8,7 @@ const client = new Client({intents: config.intents})
 client.config = config
 client.commands = {}
 client.slashs = []
+client.autocompletes = {};
 
 readdirSync('./src/utils/handlers').forEach(handler => require(`./src/utils/handlers/${handler}`)(client))
 

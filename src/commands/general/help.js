@@ -24,24 +24,42 @@ module.exports = {
                 embeds: [{
                     color: client.config.color,
                     title: `Commande ${command.help.name}`,
-                    fields: [{name: "Description", value: command.help.description}, {
+                    fields: [
+                        {name: "Description", value: command.help.description},
+                        {
                         name: "utilisateur",
                         value: `\`/${command.help.name}${command.help.options?.length ? `${command.help.options.map(o => `${o.required ? o.name : `[${o.name}]`}: <${optionTypes[o.type]}`).join(" ")}` : ""}\``
-                    }, {
+                    },
+                        {
                         name: "Exemples",
                         value: command.help.examples?.length ? command.help.examples.map(e => `\`/${command.help.name} ${e}\``).join('\n') : `\`/${command.help.name}\``
-                    }, {
+                    },
+                        {
                         name: "Permission",
-                        value: `Permissions du bot : ${command.help.botPermissions.length ? new PermissionsBitField(command.help.botPermissions).toArray().map(p => `\`${p}\``).join(", ") : "Aucune"}\nPermission du membre : ${command.help.memberPermissions.length ? new PermissionsBitField(command.help.memberPermissions).toArray().map(p => `\`${p}\``).join(", ") : "Aucune"}`
-                    }]
+                        value: `Permissions du bot : ${command.help.botPermissions?.length ? new PermissionsBitField(command.help.botPermissions).toArray().map(p => `\`${p}\``).join(", ") : "Aucune"}\nPermission du membre : ${command.help.memberPermissions?.length ? new PermissionsBitField(command.help.memberPermissions).toArray().map(p => `\`${p}\``).join(", ") : "Aucune"}`
+                    }
+                    ]
                 }]
             });
         }
-        else{
-            const commands  = Object.values(client.commands).filter(({help}) => help.category !== "owner");
+        else {
+            const commands = Object.values(client.commands).filter(({help}) => help.category !== "owner");
             const categprieName = {
-                generale: ' tofu :on: '
-            }
+                general: '📰 Général',
+                moderation: '🛡️ Moderation'
+            };
+
+            interaction.reply({
+                embeds: [{
+                    color: client.config.color,
+                    title: 'Commande',
+                    description: `Préfixe : \`/\`\nCommandes : \`${commands.length}\``,
+                    fields: [...new Set(commands.map(({help}) => help.category))].map(category => ({
+                        name: categprieName[category],
+                        value: commands.filter(({help}) => help.category === category).map(({help}) => `\`${help.name}\``).join(', ')
+                    }))
+                }]
+            });
         }
     }, help: {
         description: "Affiche la liste des commandes du bot.",
