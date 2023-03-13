@@ -20,7 +20,7 @@ module.exports = {
                     embeds: [{
                         color: 0xff0000,
                         title: "Erreur",
-                        description: `\`\`\`js\n${err.members}\n\`\`\``
+                        description: `\`\`\`js\n${err.message}\n\`\`\``
                     }]
                 });
             });
