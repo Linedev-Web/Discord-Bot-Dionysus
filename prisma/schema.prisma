@@ -9,3 +9,16 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+model Welcome {
+  guildID String
+  enabled Boolean
+  welcomeEnabled Boolean
+  welcomeChannelID String?
+  welcomeMessage String
+  goodbyeEnabled Boolean
+  goodbyeChannelID String?
+  goodbyeMessage String
+
+  @@id([guildID])
+  @@map("welcomes")
+}
