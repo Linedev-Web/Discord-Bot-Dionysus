@@ -47,6 +47,7 @@ module.exports = {
         else {
             const commands = client.commands.filter(c => c.help.category !== "owner");
             const categprieName = {
+                configuration: '⚙️ Configuration',
                 general: '📰 Général',
                 moderation: '🛡️ Moderation'
             };

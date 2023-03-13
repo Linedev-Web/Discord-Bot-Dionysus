@@ -1,5 +1,5 @@
 const {PermissionsBitField} = require("discord.js");
-module.exports = ({client, params: [interaction]}) => {
+module.exports              = ({client, params: [interaction]}) => {
 
     if (!interaction.channel.permissionsFor(interaction.guild.members.me).has(PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel)) return;
 
@@ -21,5 +21,11 @@ module.exports = ({client, params: [interaction]}) => {
         if (!autocomplete) return;
 
         autocomplete.run({client, interaction});
+    } else if (interaction.isModalSubmit()) {
+        const params = interaction.split(':');
+        const modal  = client.modals.get(params[0]);
+        if (!modal) return interaction.reply({content: "Cette modale n'éxiste pas ou n'éxiste plus."});
+
+        modal.run({client, interaction, params});
     }
 };

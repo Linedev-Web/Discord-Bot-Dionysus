@@ -10,7 +10,7 @@ module.exports = (client) => {
             const modal = require(`../../modals/${path}`);
 
             const modalName = filesName.filter(f => f !== "index").join("-");
-            client.modules.set(modalName, {run: modal.run, help: Object.assign(modal.help, {name: modalName})});
+            client.modals.set(modalName, {run: modal.run, help: Object.assign(modal.help, {name: modalName})});
         }
     };
 
