@@ -5,7 +5,6 @@ module.exports = {
 
         if (commandName) {
             const command = client.commands.get(commandName);
-            console.log(command)
 
             if (!command) return interaction.reply({content: `Je ne trouve aucune commande **${escapeMarkdown(commandName)}**.`});
 
@@ -46,20 +45,20 @@ module.exports = {
             });
         }
         else {
-            const commands = client.commands.filter(c => c.category !== "owner");
+            const commands = client.commands.filter(c => c.help.category !== "owner");
             const categprieName = {
                 general: '📰 Général',
                 moderation: '🛡️ Moderation'
             };
-
+                console.log(commands.size)
             interaction.reply({
                 embeds: [{
                     color: client.config.color,
                     title: 'Commande',
-                    description: `Préfixe : \`/\`\nCommandes : \`${commands.length}\``,
-                    fields: [...new Set(commands.map(c => c.category))].map(category => ({
-                        name: categprieName[category] ?? 'Toto',
-                        value: commands.filter(c => c.category === category).map(c => `\`${c.name}\``).join(', ')
+                    description: `Préfixe : \`/\`\nCommandes : \`${commands.size}\``,
+                    fields: [...new Set(commands.map(c => c.help.category))].map(category => ({
+                        name: categprieName[category],
+                        value: commands.filter(c => c.help.category === category).map(c => `\`${c.help.name}\``).join(', ')
                     }))
                 }]
             });
