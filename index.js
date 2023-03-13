@@ -9,6 +9,7 @@ client.config = config
 client.commands = new Collection();
 client.slashs = []
 client.autocompletes = new Collection();
+client.modals = new Collection();
 client.db = require('./src/utils/database/structure')
 
 readdirSync('./src/utils/handlers').forEach(handler => require(`./src/utils/handlers/${handler}`)(client))

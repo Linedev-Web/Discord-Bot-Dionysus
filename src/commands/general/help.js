@@ -5,6 +5,7 @@ module.exports = {
 
         if (commandName) {
             const command = client.commands.get(commandName);
+            console.log(command)
 
             if (!command) return interaction.reply({content: `Je ne trouve aucune commande **${escapeMarkdown(commandName)}**.`});
 
@@ -57,7 +58,7 @@ module.exports = {
                     title: 'Commande',
                     description: `Préfixe : \`/\`\nCommandes : \`${commands.length}\``,
                     fields: [...new Set(commands.map(c => c.category))].map(category => ({
-                        name: categprieName[category],
+                        name: categprieName[category] ?? 'Toto',
                         value: commands.filter(c => c.category === category).map(c => `\`${c.name}\``).join(', ')
                     }))
                 }]
@@ -70,7 +71,7 @@ module.exports = {
         dmPermission: true,
         options: [{
             name: "commande",
-            description: "La commande auquelle afficher les informations.",
+            description: "La commande au quelle afficher les informations.",
             type: 3,
             autocomplete: true
         }]
