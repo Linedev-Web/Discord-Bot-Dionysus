@@ -22,7 +22,7 @@ module.exports              = ({client, params: [interaction]}) => {
 
         autocomplete.run({client, interaction});
     } else if (interaction.isModalSubmit()) {
-        const params = interaction.split(':');
+        const params = interaction.customId.split(':');
         const modal  = client.modals.get(params[0]);
         if (!modal) return interaction.reply({content: "Cette modale n'éxiste pas ou n'éxiste plus."});
 

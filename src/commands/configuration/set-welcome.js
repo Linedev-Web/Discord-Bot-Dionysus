@@ -1,17 +1,17 @@
-const {PermissionsBitField, ActionRow, TextInputComponent} = require("discord.js");
+const {PermissionsBitField} = require("discord.js");
 module.exports = {
     run: async ({client, interaction}) => {
-        const welcomeDB  = client.db.selectWelcomeByGuildId({guildID: interaction.guildId});
+        const welcomeDB = client.db.selectWelcomeByGuildId({guildID: interaction.guildId});
         const subCommand = interaction.options.getSubcommand();
-        const state      = interaction.options.getString('état');
-        const type       = interaction.options.getString('types');
-        const channel    = interaction.options.getString('salon');
+        const state = interaction.options.getString('état');
+        const type = interaction.options.getString('type');
+        const channel = interaction.options.getChannel('salon');
 
         const types = {
             welcome: "Bienvenue", goodbye: "Au revoir"
         };
+        console.log(interaction.guildId);
         console.log(welcomeDB);
-        console.table(welcomeDB);
 
         if (subCommand === "plugin-state") {
             if (welcomeDB.enabled === (state === "enabled")) return interaction.repl({
@@ -26,8 +26,8 @@ module.exports = {
                 content: `Le plugin de bienvenue à été ${state === "enabled" ? "activé" : "désactivé"}`
             });
         } else if (subCommand === "modules-state") {
-            if (!welcomeDB.enabled) return interaction.reply({
-                content: "Le plugin de bienvenue n'est pas activé, activez-le en tapant `/set-welcome plugin-state état: Activer` et réssayer.",
+            if (welcomeDB.enabled === false) return interaction.reply({
+                content: "Le plugin de bienvenue n'est pas activé, activez-le en tapant `/set-welcome plugin-state état: Activer` et réessayez.",
                 ephemeral: true
             });
             if (welcomeDB[`${type}Enabled`] === (state === "enabled")) return interaction.reply({
@@ -35,7 +35,7 @@ module.exports = {
                 ephemeral: true
             });
 
-            await client.db.updateWelcomeSetModuleEnableByGuildID({
+            await client.db.updateWelcomeSetModuleEnabledByGuildID({
                 guildID: interaction.guildId, type, enabled: state === 'enabled'
             });
 
@@ -43,12 +43,12 @@ module.exports = {
                 content: `le module de \`${types[type]}\` du plugin de bienvenue à bien été ${state === "enabled" ? "activé" : "désactiver"}.`
             });
         } else if (subCommand === "salon") {
-            if (!welcomeDB.enabled) return interaction.reply({
-                content: "Le plugin de bienvenue n'est pas activé, activez-le en tapant `/set-welcome plugin-state état: Activer` et réssayer.",
+            if (welcomeDB.enabled === false) return interaction.reply({
+                content: "Le plugin de bienvenue n'est pas activé, activez-le en tapant `/set-welcome plugin-state état: Activer` et réessayez.",
                 ephemeral: true
             });
 
-            if (!welcomeDB[`${type}Enabled`]) return interaction.reply({
+            if (welcomeDB[`${type}Enabled`] === false) return interaction.reply({
                 content: `Le module de \`${types[type]}\` du plugin de bienvenue n'est pas activé, activez-le en tapant \`/set-welcome modules-state état Activer: ${types[type]}\` est réessayez.`,
                 ephemeral: true
             });
@@ -69,20 +69,20 @@ module.exports = {
 
             interaction.reply({content: `Le salon du module de \`${types[type]}\` du plugin de bienvenue à bien été défini sur ${channel}.`});
         } else if (subCommand === 'message') {
-            if (!welcomeDB.enabled) return interaction.reply({
+            if (welcomeDB.enabled === false) return interaction.reply({
                 content: "Le plugin de bienvenue n'est pas activé, activez-le en tapant `/set-welcome plugin-state état: Activer` et réssayer.",
                 ephemeral: true
             });
 
-            if (!welcomeDB[`${type}Enabled`]) return interaction.reply({
+            if (welcomeDB[`${type}Enabled`] === false) return interaction.reply({
                 content: `Le module de \`${types[type]}\` du plugin de bienvenue n'est pas activé, activez-le en tapant \`/set-welcome modules-state état Activer: ${types[type]}\` est réessayez.`,
                 ephemeral: true
             });
 
             await interaction.showModal({
-                custom_id: `config-welcome-message:${type}`, title: "Message", components: [{
-                    type: ActionRow, components: [{
-                        type: TextInputComponent,
+                customId: `config-welcome-message:${type}`, title: "Message", components: [{
+                    type: 1, components: [{
+                        type: 4,
                         custom_id: "message",
                         label: "le message à configurer",
                         placeholder: "Saississez un message",
@@ -145,7 +145,13 @@ module.exports = {
             name: 'message',
             description: "Définit le message qui sera envoyer dans le salon",
             type: 1,
-            choices: [{name: "Bienvenue", value: "welcome"}, {name: "Au revoir", value: "goodbye"}]
+            options: [{
+                name: "type",
+                description: "Le module auquel définir le salon.",
+                type: 3,
+                choices: [{name: "Bienvenue", value: "welcome"}, {name: "Au revoir", value: "goodbye"}],
+                required: true
+            }]
         }]
     }
 };

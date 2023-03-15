@@ -16,7 +16,7 @@ module.exports = {
         return prisma.welcome.update({where: {guildID}, data: {enabled}});
     },
 
-    updateWelcomeSetModuleEnableByGuildID: async function ({guildID, type, enabled}) {
+    updateWelcomeSetModuleEnabledByGuildID: async function ({guildID, type, enabled}) {
         const data             = {};
         data[`${type}Enabled`] = enabled;
         return prisma.welcome.update({where: {guildID}, data});
