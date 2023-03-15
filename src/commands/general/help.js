@@ -4,11 +4,13 @@ module.exports = {
         const commandName = interaction.options.getString('commande');
 
         if (commandName) {
-            const command = client.commands[commandName];
+            const command = client.commands.get(commandName);
 
             if (!command) return interaction.reply({content: `Je ne trouve aucune commande **${escapeMarkdown(commandName)}**.`});
 
             const optionTypes = {
+                1: "sous-commande",
+                2: "group de sous-commandes",
                 3: "Chaine de caractère",
                 4: "nombre entier",
                 5: "vrai ou faux",
@@ -43,20 +45,21 @@ module.exports = {
             });
         }
         else {
-            const commands = Object.values(client.commands).filter(({help}) => help.category !== "owner");
+            const commands = client.commands.filter(c => c.help.category !== "owner");
             const categprieName = {
+                configuration: '⚙️ Configuration',
                 general: '📰 Général',
                 moderation: '🛡️ Moderation'
             };
-
+                console.log(commands.size)
             interaction.reply({
                 embeds: [{
                     color: client.config.color,
                     title: 'Commande',
-                    description: `Préfixe : \`/\`\nCommandes : \`${commands.length}\``,
-                    fields: [...new Set(commands.map(({help}) => help.category))].map(category => ({
+                    description: `Préfixe : \`/\`\nCommandes : \`${commands.size}\``,
+                    fields: [...new Set(commands.map(c => c.help.category))].map(category => ({
                         name: categprieName[category],
-                        value: commands.filter(({help}) => help.category === category).map(({help}) => `\`${help.name}\``).join(', ')
+                        value: commands.filter(c => c.help.category === category).map(c => `\`${c.help.name}\``).join(', ')
                     }))
                 }]
             });
@@ -68,7 +71,7 @@ module.exports = {
         dmPermission: true,
         options: [{
             name: "commande",
-            description: "La commande auquelle afficher les informations.",
+            description: "La commande au quelle afficher les informations.",
             type: 3,
             autocomplete: true
         }]

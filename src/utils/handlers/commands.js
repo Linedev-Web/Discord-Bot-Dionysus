@@ -16,10 +16,9 @@ module.exports = client => {
                 defaultMemberPermissions: command.help.memberPermissions || null,
                 dmPermission: command.help.dmPermission || false,
             });
-
-            client.commands[commandName] = {
+            client.commands.set(commandName, {
                 run: command.run, help: Object.assign(command.help, {name: commandName, category})
-            };
+            });
         });
     });
 };
