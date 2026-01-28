@@ -1,0 +1,1 @@
+{"version":3,"file":"welcome.js","sourceRoot":"","sources":["../../../../src/utils/database/payloads/welcome.ts"],"names":[],"mappings":";;AAIA,MAAM,cAAc,GAAG,CAAC,EAAE,OAAO,EAAkB,EAAE,EAAE;IACnD,OAAO;QACH,OAAO;QACP,OAAO,EAAE,KAAK;QACd,cAAc,EAAE,KAAK;QACrB,cAAc,EAAE,0DAA0D;QAC1E,cAAc,EAAE,KAAK;QACrB,cAAc,EAAE,wBAAwB;KAC3C,CAAC;AACN,CAAC,CAAC;AAEF,kBAAe,cAAc,CAAC"}

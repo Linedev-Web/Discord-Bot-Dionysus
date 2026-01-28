@@ -1,0 +1,1 @@
+{"version":3,"file":"guildMemberRemove.d.ts","sourceRoot":"","sources":["../../../src/events/guildMember/guildMemberRemove.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,WAAW,EAAE,MAAM,YAAY,CAAC;AACzC,OAAO,EAAE,cAAc,EAAE,MAAM,aAAa,CAAC;AAG7C,QAAA,MAAM,sBAAsB,GAAU,8BAA8B;IAAE,MAAM,EAAE,cAAc,CAAC;IAAC,MAAM,EAAE,CAAC,WAAW,CAAC,CAAA;CAAE,kBAyBpH,CAAC;AAEF,eAAe,sBAAsB,CAAC"}
