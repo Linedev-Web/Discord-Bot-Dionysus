@@ -38,16 +38,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const node_fs_1 = require("node:fs");
 const node_path_1 = __importDefault(require("node:path"));
-exports.default = (client) => {
+exports.default = async (client) => {
     const autocompletesPath = node_path_1.default.join(__dirname, "../../autocompletes");
-    (0, node_fs_1.readdirSync)(autocompletesPath).filter(file => (0, node_fs_1.lstatSync)(node_path_1.default.join(autocompletesPath, file)).isFile() && (file.endsWith('.js') || (file.endsWith('.ts') && !file.endsWith('.d.ts')))).forEach(async (file) => {
+    const files = (0, node_fs_1.readdirSync)(autocompletesPath).filter(file => (0, node_fs_1.lstatSync)(node_path_1.default.join(autocompletesPath, file)).isFile() && (file.endsWith('.js') || (file.endsWith('.ts') && !file.endsWith('.d.ts'))));
+    for (const file of files) {
         const filePath = node_path_1.default.join(autocompletesPath, file);
         const autocompleteModule = await Promise.resolve(`${filePath}`).then(s => __importStar(require(s)));
         const autocomplete = autocompleteModule.default || autocompleteModule;
         const autocompleteName = file.split('.')[0];
         if (!autocompleteName)
-            return;
+            continue;
         client.autocompletes.set(autocompleteName, autocomplete);
-    });
+    }
 };
 //# sourceMappingURL=autocompletes.js.map

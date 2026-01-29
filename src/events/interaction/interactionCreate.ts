@@ -1,5 +1,6 @@
 import { PermissionsBitField, Interaction } from "discord.js";
 import { ExtendedClient } from "../../types";
+import { handleOnboardingInteraction } from "../onboarding/onboardingLogic";
 
 const interactionCreateEvent = ({ client, params: [interaction] }: { client: ExtendedClient, params: [Interaction] }) => {
 
@@ -36,6 +37,14 @@ const interactionCreateEvent = ({ client, params: [interaction] }: { client: Ext
         if (!modal) return interaction.reply({ content: "Cette modale n'éxiste pas ou n'éxiste plus.", ephemeral: true });
 
         modal.run({ client, interaction });
+    } else if (interaction.isButton() || interaction.isAnySelectMenu()) {
+        const params = interaction.customId.split(':');
+        const customId = params[0];
+        if (!customId) return;
+
+        if (customId.startsWith('onboarding_')) {
+            return handleOnboardingInteraction(client, interaction);
+        }
     }
 };
 

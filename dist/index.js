@@ -53,12 +53,14 @@ client.autocompletes = new discord_js_1.Collection();
 client.modals = new discord_js_1.Collection();
 client.db = structure_1.default;
 const handlersPath = node_path_1.default.join(__dirname, "utils", "handlers");
-(0, node_fs_1.readdirSync)(handlersPath).forEach(async (handlerFile) => {
-    if (handlerFile.endsWith('.js') || (handlerFile.endsWith('.ts') && !handlerFile.endsWith('.d.ts'))) {
+const handlers = (0, node_fs_1.readdirSync)(handlersPath).filter(f => f.endsWith('.js') || (f.endsWith('.ts') && !f.endsWith('.d.ts')));
+async function loadHandlers() {
+    for (const handlerFile of handlers) {
         const handlerPath = node_path_1.default.join(handlersPath, handlerFile);
         const handler = await Promise.resolve(`${handlerPath}`).then(s => __importStar(require(s)));
-        (handler.default || handler)(client);
+        await (handler.default || handler)(client);
     }
-});
-client.login(process.env.TOKEN);
+    client.login(process.env.TOKEN);
+}
+loadHandlers();
 //# sourceMappingURL=index.js.map

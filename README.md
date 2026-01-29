@@ -16,7 +16,22 @@ Dionysus est un bot Discord polyvalent utilisant `discord.js` v14 et `Prisma` po
    DATABASE_URL="file:./dev.db"
    ```
 
-3. **Initialisation de la base de données (Prisma) :**
+4. **Configuration de l'Onboarding :**
+   Ajoutez les rôles suivants dans votre fichier `.env` pour activer le système d'onboarding :
+   ```env
+   # Roles Onboarding
+   ROLE_SOURCE_SITE=ID_ROLE_SITE
+   ROLE_SOURCE_SOCIALS=ID_ROLE_RESEAUX
+
+   ROLE_THEME_RAINBOW=ID_ROLE_RAINBOW
+   ROLE_THEME_ZODPRESS=ID_ROLE_ZODPRESS
+   ROLE_THEME_DISCUSSION=ID_ROLE_DISCUSSION
+
+   # Rules Confirmation
+   ROLE_MEMBER=ID_ROLE_MEMBRE
+   ```
+
+5. **Initialisation de la base de données (Prisma) :**
    Le bot utilise SQLite par défaut. Pour initialiser la base de données et générer le client Prisma :
    ```bash
    npx prisma db push
@@ -27,6 +42,19 @@ Dionysus est un bot Discord polyvalent utilisant `discord.js` v14 et `Prisma` po
    ```bash
    node index.js
    ```
+
+## 🚀 Déploiement des Commandes Slash
+
+Si vous ajoutez de nouvelles commandes ou si elles n'apparaissent pas sur Discord, utilisez :
+```bash
+npm run deploy
+# ou avec pnpm
+pnpm run deploy
+```
+
+**Note :** N'utilisez pas `pnpm deploy` (sans `run`) car c'est une commande pnpm réservée aux workspaces.
+
+Une fois le déploiement terminé, vous pouvez relancer le bot normalement avec `npm run dev`.
 
 ## 🛠️ Configuration de Prisma
 
@@ -50,6 +78,7 @@ En cas de modification du schéma :
 - `/untimeout` : Retirer la sourdine d'un membre.
 
 ### ℹ️ Général
+- `/themes` : Modifier vos préférences d'affichage des salons.
 - `/ping` : Affiche la latence du bot.
 - `/help` : Affiche la liste des commandes.
 - `/embed` : Créer un message embed personnalisé.

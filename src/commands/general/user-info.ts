@@ -35,7 +35,7 @@ const userInfoCommand: Command = {
     },
     help: {
         description: "Affiche les informations d'un utilisateur",
-        memberPermissions: [PermissionsBitField.Flags.EmbedLinks] as any,
+        memberPermissions: [PermissionsBitField.Flags.EmbedLinks],
         examples: ['membre: @Utilisateur'],
         options: [{
             name: "member",

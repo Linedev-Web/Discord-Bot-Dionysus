@@ -38,11 +38,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const node_fs_1 = require("node:fs");
 const node_path_1 = __importDefault(require("node:path"));
-exports.default = (client) => {
+exports.default = async (client) => {
     const eventsPath = node_path_1.default.join(__dirname, "../../events");
-    (0, node_fs_1.readdirSync)(eventsPath).forEach(category => {
+    const categories = (0, node_fs_1.readdirSync)(eventsPath);
+    for (const category of categories) {
         const categoryPath = node_path_1.default.join(eventsPath, category);
-        (0, node_fs_1.readdirSync)(categoryPath).filter(file => (0, node_fs_1.lstatSync)(node_path_1.default.join(categoryPath, file)).isFile() && (file.endsWith('.js') || (file.endsWith('.ts') && !file.endsWith('.d.ts')))).forEach(file => {
+        const files = (0, node_fs_1.readdirSync)(categoryPath).filter(file => (0, node_fs_1.lstatSync)(node_path_1.default.join(categoryPath, file)).isFile() && (file.endsWith('.js') || (file.endsWith('.ts') && !file.endsWith('.d.ts'))));
+        for (const file of files) {
             const eventName = file.split('.')[0];
             client.on(eventName, async (...params) => {
                 const filePath = node_path_1.default.join(categoryPath, file);
@@ -50,7 +52,7 @@ exports.default = (client) => {
                 const event = eventModule.default || eventModule;
                 event({ client, params });
             });
-        });
-    });
+        }
+    }
 };
 //# sourceMappingURL=events.js.map

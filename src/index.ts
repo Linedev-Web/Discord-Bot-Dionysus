@@ -20,12 +20,15 @@ client.modals = new Collection();
 client.db = database;
 
 const handlersPath = path.join(__dirname, "utils", "handlers");
-readdirSync(handlersPath).forEach(async (handlerFile) => {
-    if (handlerFile.endsWith('.js') || (handlerFile.endsWith('.ts') && !handlerFile.endsWith('.d.ts'))) {
+const handlers = readdirSync(handlersPath).filter(f => f.endsWith('.js') || (f.endsWith('.ts') && !f.endsWith('.d.ts')));
+
+async function loadHandlers() {
+    for (const handlerFile of handlers) {
         const handlerPath = path.join(handlersPath, handlerFile);
         const handler = await import(handlerPath);
-        (handler.default || handler)(client);
+        await (handler.default || handler)(client);
     }
-});
+    client.login(process.env.TOKEN);
+}
 
-client.login(process.env.TOKEN);
+loadHandlers();

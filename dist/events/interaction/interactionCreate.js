@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
+const onboardingLogic_1 = require("../onboarding/onboardingLogic");
 const interactionCreateEvent = ({ client, params: [interaction] }) => {
     if (!interaction.guild || !interaction.channel || !('permissionsFor' in interaction.channel))
         return;
@@ -35,6 +36,15 @@ const interactionCreateEvent = ({ client, params: [interaction] }) => {
         if (!modal)
             return interaction.reply({ content: "Cette modale n'éxiste pas ou n'éxiste plus.", ephemeral: true });
         modal.run({ client, interaction });
+    }
+    else if (interaction.isButton() || interaction.isAnySelectMenu()) {
+        const params = interaction.customId.split(':');
+        const customId = params[0];
+        if (!customId)
+            return;
+        if (customId.startsWith('onboarding_')) {
+            return (0, onboardingLogic_1.handleOnboardingInteraction)(client, interaction);
+        }
     }
 };
 exports.default = interactionCreateEvent;

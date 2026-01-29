@@ -38,14 +38,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const node_fs_1 = require("node:fs");
 const node_path_1 = __importDefault(require("node:path"));
-exports.default = (client) => {
+exports.default = async (client) => {
     const commandsPath = node_path_1.default.join(__dirname, "../../commands");
-    (0, node_fs_1.readdirSync)(commandsPath).forEach(category => {
+    const categories = (0, node_fs_1.readdirSync)(commandsPath);
+    for (const category of categories) {
         const categoryPath = node_path_1.default.join(commandsPath, category);
-        (0, node_fs_1.readdirSync)(categoryPath).filter(file => (0, node_fs_1.lstatSync)(node_path_1.default.join(categoryPath, file)).isFile() && (file.endsWith('.js') || (file.endsWith('.ts') && !file.endsWith('.d.ts')))).forEach(async (file) => {
+        const files = (0, node_fs_1.readdirSync)(categoryPath).filter(file => (0, node_fs_1.lstatSync)(node_path_1.default.join(categoryPath, file)).isFile() && (file.endsWith('.js') || (file.endsWith('.ts') && !file.endsWith('.d.ts'))));
+        for (const file of files) {
             const commandName = file.split('.')[0];
             if (!commandName)
-                return;
+                continue;
             const filePath = node_path_1.default.join(categoryPath, file);
             const commandModule = await Promise.resolve(`${filePath}`).then(s => __importStar(require(s)));
             const command = commandModule.default || commandModule;
@@ -61,7 +63,7 @@ exports.default = (client) => {
                 run: command.run,
                 help: Object.assign(command.help, { name: commandName, category })
             });
-        });
-    });
+        }
+    }
 };
 //# sourceMappingURL=commands.js.map

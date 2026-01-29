@@ -1,9 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const onboardingLogic_1 = require("../onboarding/onboardingLogic");
 const { WelcomeLeave } = require("canvafy");
 const guildMemberAddEvent = async ({ client, params: [member] }) => {
     if (member.pending)
         return;
+    // Lancement de l'onboarding
+    await (0, onboardingLogic_1.startOnboarding)(client, member);
     const welcomeDB = await client.db.selectWelcomeByGuildId({ guildID: member.guild.id });
     if (!welcomeDB.enabled || !welcomeDB.welcomeEnabled)
         return;
